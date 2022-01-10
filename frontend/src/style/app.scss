@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+$-bg-dark: #000d1a;
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  background: $-bg-dark;
+  color: white;
+}
+
+.s-pad {
+  padding: 4rem 0;
+}
+.f-w-w {
+  flex-wrap: wrap;
+}
+.a-i-c {
+  align-items: center;
+}
+.t-d-n {
+  text-decoration: none;
+}
+.j-c-s-b {
+  justify-content: space-between;
+}
+.j-c-c {
+  justify-content: center;
+}
+
+// ****************************************************************************************************************************************************************************************************************
+.hero_banner {
+  background: $-bg-dark;
+  color: white;
+  .MuiInputLabel-root {
+    color: white !important;
+  }
+  .MuiOutlinedInput-root {
+    background: #ffffff5e !important ;
+  }
+}
+
+// *********************************************************************************
+
+.video_sector_lss {
+  position: relative;
+
+  .v-box.alwlikj {
+    position: relative;
+  }
+
+  .u-v-sswa {
+    background: #ffffff52;
+    width: 100%;
+    border-radius: 1rem;
+  }
+}
+
+// .option_wrapper {
+//   button {
+//     svg {
+//       color: white;
+//     }
+//   }
+// }

@@ -12,10 +12,7 @@
 # production
 /frontend/build
 
-# misc
-.env
-/.env
-/frontend/.env
+
 
 
 

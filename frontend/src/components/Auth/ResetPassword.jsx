@@ -35,7 +35,7 @@ export default function ResetPassword() {
 
     const password = data.get("password");
     const ConfirmPassword = data.get("confirmPassword");
-    console.log(password, ConfirmPassword);
+
     if (ConfirmPassword.length < 8 || password.length < 8) {
       setMessage({
         open: true,

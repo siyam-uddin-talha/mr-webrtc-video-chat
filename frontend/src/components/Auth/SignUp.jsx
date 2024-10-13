@@ -73,27 +73,19 @@ export default function SignUp() {
       });
 
       if (data.success) {
-        setBackDropLoading(false);
         dispatch({ type: "USER_SUCCESS", payload: data.response });
+        setBackDropLoading(false);
         history.push("/");
-      } else if (data.message === `user exist! try to login`) {
-        setBackDropLoading(false);
-
-        setMessage({
-          open: true,
-          message: "User already exist! try new one",
-        });
-      } else {
-        setBackDropLoading(false);
-
-        setMessage({
-          open: true,
-          message: data.message,
-        });
+        return;
       }
+
+      setBackDropLoading(false);
+      setMessage({
+        open: true,
+        message: data.message,
+      });
     } catch (error) {
       setBackDropLoading(false);
-
       setMessage({
         open: true,
         message: error.message,

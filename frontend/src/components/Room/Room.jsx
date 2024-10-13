@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
-import { Button, Container } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/system";
 import { Redirect } from "react-router";
@@ -9,6 +9,7 @@ import BackDropLoading from "../More/BackDropLoading";
 import Options from "./Options";
 import UseGetData from "../../api/UseGetData";
 import { ErrorBoundary } from "react-error-boundary";
+import ShowAlert from "../More/ShowAlert";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -44,14 +45,20 @@ const NewRoom = () => {
     login: false,
     user: {},
   });
+  const [message, setMessage] = React.useState({
+    open: false,
+    message: "",
+  });
+
   const [peers, setPeers] = useState([]);
 
   const socketRef = useRef();
   const peersRef = useRef([]);
 
-  const GetUser = useCallback(async () => {
+  const getUser = useCallback(async () => {
     try {
       const { data } = await UseGetData(`/api/user`);
+
       if (data.success) {
         setUser({
           login: true,
@@ -59,11 +66,32 @@ const NewRoom = () => {
         });
         setloading(false);
       } else {
-        setUser({
-          login: false,
-          user: {},
+        const { data } = await UseGetData(`/api/auth/ontap`);
+
+        if (data.success) {
+          setMessage({
+            open: true,
+            message: data.message,
+          });
+
+          setUser({
+            login: true,
+            user: data.response,
+          });
+          setloading(false);
+
+          return;
+        }
+        setMessage({
+          open: true,
+          message: data.message,
         });
-        setloading(false);
+
+        // setUser({
+        //   login: false,
+        //   user: {},
+        // });
+        // setloading(false);
       }
     } catch (error) {
       setUser({
@@ -74,8 +102,8 @@ const NewRoom = () => {
   }, []);
 
   useEffect(() => {
-    GetUser();
-  }, [GetUser]);
+    getUser();
+  }, [getUser]);
 
   //========================= giant useEffect ====================
 
@@ -147,14 +175,16 @@ const NewRoom = () => {
 
         setTimeout(() => {
           userVideo.current.srcObject = stream;
-        }, 2000);
+        }, 1000);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
 
-        if (err.message === "Permission denied") {
+        if (
+          err.message === "Permission denied" ||
+          err.message === "Requested device not found"
+        ) {
           socketRef.current.emit("join room", roomID);
-
           socketRef.current.on("all users", (users) => {
             const allPeers = [];
             users.forEach((userID) => {
@@ -252,6 +282,16 @@ const NewRoom = () => {
     return peer;
   };
 
+  const widthShould = () => {
+    if (peers.length === 0) {
+      return "100%";
+    }
+    if (peers.length === 2) {
+      return "50%";
+    }
+    return "100%";
+  };
+
   if (loading) {
     return <BackDropLoading />;
   }
@@ -261,54 +301,60 @@ const NewRoom = () => {
 
   return (
     <React.Fragment>
-      <section className="s-pad video_sector_lss">
+      <section className=" video_sector_lss">
         <Container
           maxWidth="xl"
-          className="d-flex gap-4 vedio_sector__ a-i-c j-c-c"
-          sx={{ minHeight: "100%" }}
+          className="d-flex gap-4 vedio_sector__ a-i-c j-c-s-b"
+          sx={{ minHeight: "100%", pt: 3 }}
         >
-          <>
-            <Box
-              className="v-box alwlikj d-flex a-i-c gap-2 f-w-w j-c-c"
-              sx={{
-                "& > video": { borderRadius: "1rem", background: "#ffffff52" },
+          <Grid
+            container
+            sx={{
+              "& > * video": {
+                borderRadius: "1rem",
+                background: "#12181e",
                 width: "100%",
-              }}
-            >
-              {/* user-video */}
-              <React.Fragment>
-                <div className="col-md-4 col-sm-5">
-                  {
-                    <video
-                      autoPlay
-                      ref={(el) => {
-                        userVideo.current = el;
-                      }}
-                      className="u-v-sswa"
-                    ></video>
-                  }
-                </div>
-              </React.Fragment>
-
-              {/* other-user-vidoe */}
-              <React.Fragment>
-                {peers.length !== 0 && (
-                  <>
-                    {peers.map((peer, i) => {
-                      return (
-                        <div className="col-md-4 col-sm-5" key={peer.peerID}>
-                          <Video peer={peer.peer} />
-                        </div>
-                      );
-                    })}
-                  </>
-                )}
-              </React.Fragment>
-            </Box>
-          </>
+              },
+            }}
+            spacing={2}
+          >
+            <React.Fragment>
+              {peers.length === 0 ? (
+                <Grid item className="v-wrap" sx={{ width: widthShould() }}>
+                  <video
+                    autoPlay
+                    ref={(el) => {
+                      userVideo.current = el;
+                    }}
+                    className="u-v-sswa"
+                  ></video>
+                </Grid>
+              ) : (
+                <>
+                  {peers.map((peer, i) => {
+                    return (
+                      <Grid
+                        item
+                        className="v-wrap"
+                        key={peer.peerID}
+                        sx={{ width: widthShould() }}
+                      >
+                        <Video peer={peer.peer} />
+                      </Grid>
+                    );
+                  })}
+                </>
+              )}
+            </React.Fragment>
+          </Grid>
         </Container>
       </section>
       <Options stream={userVideo.current} />
+      <ShowAlert
+        open={message.open}
+        setClose={setMessage}
+        message={message.message}
+      />
     </React.Fragment>
   );
 };

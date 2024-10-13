@@ -73,7 +73,7 @@ const Options = ({ stream }) => {
   const optionGrout = [
     { icon: <BsMic />, fun: handleMic },
     { icon: <BsCameraVideo />, fun: handleCam },
-    { icon: <CallEndOutlinedIcon />, fun: handleHangout },
+    { icon: <CallEndOutlinedIcon />, fun: handleHangout, color: "error" },
     { icon: <BsThreeDotsVertical />, fun: handleclipbordOpen },
   ];
 
@@ -88,14 +88,15 @@ const Options = ({ stream }) => {
           background: "#000d1a",
         }}
       >
-        <Container component="main" maxWidth="xs" sx={{ pb: 2 }}>
+        <Container component="main" maxWidth="xs" sx={{ py: 2 }}>
           <div className="wrapper_ option_wrapper d-flex j-c-s-b">
             {optionGrout.map((item, index) => {
               return (
                 <IconButton
                   key={index}
                   onClick={() => item.fun()}
-                  color="secondary"
+                  color={item.color ? item.color : "secondary"}
+                  sx={{ border: 1 }}
                 >
                   {item.icon}
                 </IconButton>

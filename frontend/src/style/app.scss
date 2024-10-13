@@ -3,9 +3,9 @@ $-bg-dark: #000d1a;
 
 body {
   font-family: "Montserrat", sans-serif;
-  font-family: "Source Sans Pro", sans-serif;
-  background: $-bg-dark;
-  color: white;
+
+  // background: $-bg-dark;
+  // color: white;
 }
 
 .s-pad {
@@ -29,14 +29,13 @@ body {
 
 // ****************************************************************************************************************************************************************************************************************
 .hero_banner {
-  background: $-bg-dark;
-  color: white;
-  .MuiInputLabel-root {
-    color: white !important;
-  }
-  .MuiOutlinedInput-root {
-    background: #ffffff5e !important ;
-  }
+  // color: white;
+  // .MuiInputLabel-root {
+  //   color: white !important;
+  // }
+  // .MuiOutlinedInput-root {
+  //   background: #ffffff5e !important ;
+  // }
 }
 
 // *********************************************************************************
@@ -48,11 +47,11 @@ body {
     position: relative;
   }
 
-  .u-v-sswa {
-    background: #ffffff52;
-    width: 100%;
-    border-radius: 1rem;
-  }
+  // .u-v-sswa {
+  //   background: #12181e;
+  //   width: 100%;
+  //   border-radius: 1rem;
+  // }
 }
 
 // .option_wrapper {
@@ -62,3 +61,12 @@ body {
 //     }
 //   }
 // }
+
+.nav_home_link {
+  height: 100%;
+  display: flex;
+  img {
+    width: inherit;
+    height: 40px;
+  }
+}

@@ -3,7 +3,9 @@ import { Box } from "@mui/system";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { v1 as uuid } from "uuid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import UseGetData from "../api/UseGetData";
+import ShowAlert from "../components/More/ShowAlert";
 
 const Hero = () => {
   const history = useHistory();
@@ -11,17 +13,39 @@ const Hero = () => {
   const { login } = useSelector((state) => state.UserReducer);
 
   const [pathName, setpathName] = React.useState("");
+  const dispatch = useDispatch();
+  const [message, setMessage] = React.useState({
+    open: false,
+    message: "",
+  });
 
-  function CreateNewRoom() {
-    if (login) {
-      const id = uuid();
-      history.push(`/new/room/${id}`);
-    } else {
-      history.push("/user/login");
-    }
+  async function createNewRoom() {
+    try {
+      if (login) {
+        const id = uuid();
+        history.push(`/new/room/${id}`);
+      } else {
+        const { data } = await UseGetData(`/api/auth/ontap`);
+
+        if (data.success) {
+          setMessage({
+            open: true,
+            message: data.message,
+          });
+          dispatch({ type: "USER_SUCCESS", payload: data.response });
+          const id = uuid();
+          history.push(`/new/room/${id}`);
+          return;
+        }
+        setMessage({
+          open: true,
+          message: data.message,
+        });
+      }
+    } catch (error) {}
   }
 
-  const HandleJoinTheSpacificRoom = () => {
+  const handleJoinTheSpacificRoom = () => {
     const roomIdSplit = pathName.split("/");
     const onlyId = roomIdSplit[roomIdSplit.length - 1];
 
@@ -46,9 +70,9 @@ const Hero = () => {
                 className="h-100"
                 variant="contained"
                 color="primary"
-                onClick={() => CreateNewRoom()}
+                onClick={() => createNewRoom()}
               >
-                + New one
+                {login ? "+ New meet" : "+ One tap join"}
               </Button>
             </div>
             <div className="join_new-chat d-flex gap-2">
@@ -66,7 +90,7 @@ const Hero = () => {
                 <Button
                   className="h-100"
                   color="primary"
-                  onClick={HandleJoinTheSpacificRoom}
+                  onClick={handleJoinTheSpacificRoom}
                 >
                   Join
                 </Button>
@@ -84,6 +108,11 @@ const Hero = () => {
           </div>
         </Box>
       </Container>
+      <ShowAlert
+        open={message.open}
+        setClose={setMessage}
+        message={message.message}
+      />
     </section>
   );
 };

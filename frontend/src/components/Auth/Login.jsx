@@ -94,7 +94,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              variant="standard"
+              variant="outlined"
             />
             <TextField
               margin="normal"
@@ -105,16 +105,17 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              variant="standard"
+              variant="outlined"
             />
 
             <Button
               type="submit"
               fullWidth
-              variant="outlined"
+              variant="contained"
+              size="small"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
               <Grid item xs>
@@ -124,7 +125,7 @@ export default function SignIn() {
               </Grid>
               <Grid item>
                 <Link to="/user/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account? Register"}
                 </Link>
               </Grid>
             </Grid>

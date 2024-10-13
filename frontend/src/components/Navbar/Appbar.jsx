@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import { Box, Stack } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function AppHeader() {
   const dispatch = useDispatch();
@@ -20,11 +20,11 @@ export default function AppHeader() {
       });
       const response = await res.json();
 
-      if (response.message === "not login") {
+      if (!response.success) {
         dispatch({ type: `USER_FAIL` });
-      } else {
-        dispatch({ type: `USER_SUCCESS`, payload: response.user });
+        return;
       }
+      dispatch({ type: `USER_SUCCESS`, payload: response.user });
     } catch (error) {
       console.log(error.message);
     }
@@ -51,16 +51,16 @@ export default function AppHeader() {
       <AppBar
         position="static"
         sx={{
-          background: "#021426",
-          color: "white",
           boxShadow: "none",
-          borderBottom: "1px solid rgb(1 28 54)",
+          borderBottom: "none",
         }}
       >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Mr
-          </Typography>
+          <Link to="/" className="nav_home_link " style={{ flexGrow: 1 }}>
+            <Stack direction={"row"} alignItems={"center"} spacing={1}>
+              <img src="/sutio.png" alt="logo" />
+            </Stack>
+          </Link>
           <Button color="inherit" onClick={handleUser}>
             {login ? "Log out" : "Login"}
           </Button>

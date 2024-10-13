@@ -1,9 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
 body {
   font-family: "Montserrat", sans-serif;
-  font-family: "Source Sans Pro", sans-serif;
-  background: #000d1a;
-  color: white;
 }
 
 .s-pad {
@@ -11,14 +8,11 @@ body {
 }
 
 .f-w-w {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .a-i-c {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
 
 .t-d-n {
@@ -26,41 +20,25 @@ body {
 }
 
 .j-c-s-b {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 
 .j-c-c {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.hero_banner {
-  background: #000d1a;
-  color: white;
-}
-
-.hero_banner .MuiInputLabel-root {
-  color: white !important;
-}
-
-.hero_banner .MuiOutlinedInput-root {
-  background: #ffffff5e !important;
+  justify-content: center;
 }
 
 .video_sector_lss {
   position: relative;
 }
-
 .video_sector_lss .v-box.alwlikj {
   position: relative;
 }
 
-.video_sector_lss .u-v-sswa {
-  background: #ffffff52;
-  width: 100%;
-  border-radius: 1rem;
+.nav_home_link {
+  height: 100%;
+  display: flex;
 }
-/*# sourceMappingURL=app.css.map */
+.nav_home_link img {
+  width: inherit;
+  height: 40px;
+}/*# sourceMappingURL=app.css.map */

@@ -7,7 +7,7 @@ description:'this file will provide the user functions'
 const USER = require("../Models/User");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
-const crypto = require("crypto");
+const { getRandomValues } = require("crypto");
 
 // registratin function
 const REGISTER_NEW_USER = async (req, res) => {
@@ -245,22 +245,19 @@ class FakeMail {
   }
 }
 
-const generatePassword = () => {
-  var pwdChars =
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  var pwdLen = 10;
-  return new Array(pwdLen)
-    .fill(0)
-    .map((x) =>
-      (function (chars) {
-        let umax = Math.pow(2, 32),
-          r = new Uint32Array(1),
-          max = umax - (umax % chars.length);
-        do {
-          crypto.getRandomValues(r);
-        } while (r[0] > max);
-        return chars[r[0] % chars.length];
-      })(pwdChars)
-    )
-    .join("");
+const generatePassword = (length = 10) => {
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const specialChars = "!@#$?";
+
+  const allCharacters = uppercase + lowercase + numbers + specialChars;
+  let password = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * allCharacters.length);
+    password += allCharacters[randomIndex];
+  }
+
+  return password;
 };

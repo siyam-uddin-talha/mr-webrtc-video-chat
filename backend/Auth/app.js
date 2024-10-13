@@ -7,6 +7,7 @@ description:'this file will provide the user functions'
 const USER = require("../Models/User");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
+const crypto = require("crypto");
 
 // registratin function
 const REGISTER_NEW_USER = async (req, res) => {
